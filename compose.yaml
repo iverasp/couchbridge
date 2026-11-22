@@ -1,0 +1,16 @@
+# Add the couchbridge service to the compose file that already runs CouchDB,
+# or run this file next to it (both must share a network so `couchdb` resolves).
+services:
+  couchbridge:
+    build: .
+    image: couchbridge:latest
+    restart: unless-stopped
+    environment:
+      COUCHDB_URL: http://couchdb:5984
+      COUCHDB_USER: ${COUCHDB_USER}
+      COUCHDB_PASSWORD: ${COUCHDB_PASSWORD}
+      COUCHDB_DATABASE: ${COUCHDB_DATABASE}
+      ROOT_FOLDER: ${ROOT_FOLDER:-recipes}
+      PORT: 8080
+    ports:
+      - "8080:8080"
